@@ -20,12 +20,12 @@ app.use(express.json({ limit: "50mb" }));
 
 // app.use("/api/v1/post", postRoutes);
 // app.use("/api/v1/dalle", dalleRoutes);
-app.post(`${process.env.URL}/createUser`, createUser);
-app.get(`${process.env.URL}/:userId`, getUserById)
-app.put(`${process.env.URL}/updateUser`, updateUser)
-app.delete(`${process.env.URL}/deleteUser/:clerkId`, deleteUser)
-app.put(`${process.env.URL}/updateCredits/:userId`, UpdateCredits)
-app.post(`${process.env.URL}/webhooks`, webhookRoute)
+app.post(`/api/v1/createUser`, createUser);
+app.get(`/api/v1/:userId`, getUserById)
+app.put(`/api/v1/updateUser`, updateUser)
+app.delete(`/api/v1/deleteUser/:clerkId`, deleteUser)
+app.put(`/api/v1/updateCredits/:userId`, UpdateCredits)
+app.post(`/api/v1/webhooks`, webhookRoute);
 // 
 
 app.get("/", async (req, res) => {

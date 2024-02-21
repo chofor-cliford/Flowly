@@ -33,6 +33,8 @@ export const webhookRoute = async (req, res) => {
   const headers = req.headers;
   const payload = req.body;
 
+  console.log(payload)
+
   // Get the Svix headers for verification
   const svix_id = headers["svix-id"];
   const svix_timestamp = headers["svix-timestamp"];
@@ -72,6 +74,7 @@ export const webhookRoute = async (req, res) => {
   const { id } = evt.data;
   const eventType = evt.type;
 
+  console.log("User Data:", evt.data)
   // CREATE
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } =
