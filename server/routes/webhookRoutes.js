@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Function to update user metadata
 async function updateUserMetadata(userId, metadata) {
-  const apiKey = "YOUR_CLERK_API_KEY";
+  const apiKey = process.env.CLERK_API_KEY;
   const apiUrl = `https://api.clerk.io/v1/users/${userId}/metadata`;
 
   try {
