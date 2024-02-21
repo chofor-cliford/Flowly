@@ -112,7 +112,7 @@ export const webhookRoute = async (req, res) => {
 
   // UPDATE
   if (eventType === "user.updated") {
-    const { id, image_url, first_name, last_name, username } = data;
+    const { id, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
       firstName: first_name,
@@ -131,7 +131,7 @@ export const webhookRoute = async (req, res) => {
 
   // DELETE
   if (eventType === "user.deleted") {
-    const { id } = data;
+    const { id } = evt.data;
 
     const { data: deletedUser } = await axios.delete(
       `${process.env.URL}/deleteUser/:clerkId?clerkId=${id}`
