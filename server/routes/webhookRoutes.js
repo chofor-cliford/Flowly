@@ -56,7 +56,7 @@ export const webhookRoute = async (req, res) => {
   // If successful, the payload will be available from 'evt'
   // If the verification fails, error out and  return error code
   try {
-    evt = wh.verify(payload, {
+    evt = wh.verify(JSON.stringify(payload), {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
