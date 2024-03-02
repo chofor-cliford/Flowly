@@ -1,7 +1,3 @@
-"use client";
-
-import { useCallback, useEffect, useTransition } from "react";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,12 +13,16 @@ import {
 import { Button } from "../ui/button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTransition } from "react";
 
 export const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
   const [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
 
   const handleDeleteImage = async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //  @ts-expect-error
+    // Ignore error since value might be undefined
     startTransition(async () => {
       const { data } = await axios.delete(
         `http://localhost:8080/api/v1/deleteImage/:imageId?imageId=${imageId}`

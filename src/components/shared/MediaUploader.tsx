@@ -1,17 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import { cld, getImageSize } from "@/lib/utils";
 import { useToast } from "../ui/use-toast";
 import UploadWidget from "./UploadWidget";
-import { AdvancedImage, placeholder, responsive } from "@cloudinary/react";
+import {
+  AdvancedImage,
+  responsive,
+  placeholder,
+} from "@cloudinary/react";
 
 type MediaUploaderProps = {
   onValueChange: (value: string) => void;
-  setImage: React.Dispatch<any>;
+  setImage: React.Dispatch<React.SetStateAction<unknown>>;
   publicId: string;
-  image: any;
+  image: unknown;
   type: string;
 };
 
-const MediaUploader = ({
+const MediaUploader: React.FC<MediaUploaderProps> = ({
   onValueChange,
   setImage,
   image,
@@ -20,14 +26,21 @@ const MediaUploader = ({
 }: MediaUploaderProps) => {
   const { toast } = useToast();
 
-  const onUploadSuccessHandler = (result: any) => {
-    setImage((prevState: any) => ({
-      ...prevState,
-      publicId: result?.info?.public_id,
-      width: result?.info?.width,
-      height: result?.info?.height,
-      secureURL: result?.info?.secure_url,
-    }));
+  const onUploadSuccessHandler = (result: { info: { public_id: string; width: string; height: string; secure_url: string; }; }) => {
+    setImage(
+      (prevState: {
+        public_id: string;
+        width: string;
+        height: string;
+        secure_url: string;
+      }) => ({
+        ...prevState,
+        publicId: result?.info?.public_id,
+        width: result?.info?.width,
+        height: result?.info?.height,
+        secureURL: result?.info?.secure_url,
+      })
+    );
 
     onValueChange(result?.info?.public_id);
 
@@ -48,7 +61,7 @@ const MediaUploader = ({
     });
   };
 
-  const handleOnUpload = (error, result, widget) => {
+  const handleOnUpload = (error: any, result: any, widget: any) => {
     if (error) {
       onUploadErrorHandler();
       widget.close({
@@ -62,7 +75,7 @@ const MediaUploader = ({
   return (
     <UploadWidget onUpload={handleOnUpload}>
       {({ open }: any) => {
-        function handleOnClick(e) {
+        function handleOnClick(e: React.MouseEvent<HTMLDivElement>) {
           e.preventDefault();
           open();
         }
@@ -74,17 +87,18 @@ const MediaUploader = ({
               <>
                 <div className="cursor-pointer overflow-hidden rounded-[10px]">
                   <AdvancedImage
-                    width={getImageSize(type, image, "width")}
-                    height={getImageSize(type, image, "height")}
                     cldImg={cld.image(publicId)}
                     alt="image"
                     className="media-uploader_cldImage"
-                    style={{ maxWidth: "100%"}}
+                    width={getImageSize(type, image, "width")}
+                    height={getImageSize(type, image, "height")}
+                    style={{ maxWidth: "100%" }}
                     plugins={[
                       placeholder({ mode: "blur" }),
                       responsive({ steps: [800, 1000, 1400] }),
                     ]}
-                  />
+                  >
+                  </AdvancedImage>
                 </div>
               </>
             ) : (

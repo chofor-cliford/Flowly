@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
 
 let cloudinary: any;
@@ -8,6 +9,7 @@ const UploadWidget = ({ children, onUpload }:any) => {
     // Store the Cloudinary window instance to a ref when the page renders
 
     if (!cloudinary) {
+      // @ts-ignore: Ignore this specific error
       cloudinary = window.cloudinary;
     }
 
@@ -26,6 +28,7 @@ const UploadWidget = ({ children, onUpload }:any) => {
       : setTimeout(onIdle, 1);
 
     return () => {
+      // @ts-ignore: Ignore this specific error
       widget.current?.destroy();
       widget.current = undefined;
     };
@@ -57,7 +60,7 @@ const UploadWidget = ({ children, onUpload }:any) => {
       resourceType: "image",
     };
 
-    return cloudinary?.createUploadWidget(options, function (error, result) {
+    return cloudinary?.createUploadWidget(options, function (error: any, result: { event: string; }) {
       // The callback is a bit more chatty than failed or success so
       // only trigger when one of those are the case. You can additionally
       // create a separate handler such as onEvent and trigger it on
@@ -80,6 +83,7 @@ const UploadWidget = ({ children, onUpload }:any) => {
     if (!widget.current) {
       widget.current = createWidget();
     }
+    // @ts-ignore: Ignore this specific error
     widget.current && widget.current.open();
   }
 

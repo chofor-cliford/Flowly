@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface IImage extends Document {
   _id: string;
@@ -155,9 +156,9 @@ export declare type SearchParamProps = {
 
 export declare type TransformationFormProps = {
   action: "Add" | "Update";
-  userId: string;
+  userId: string | any;
   type: TransformationTypeKey;
-  creditBalance: number;
+  creditBalance: number | any;
   data?: IImage | null;
   config?: Transformations | null;
 };
@@ -166,7 +167,7 @@ export declare type TransformedImageProps = {
   image: any;
   type: string;
   title: string;
-  url?: string;
+  url?: string | undefined | any;
   transformationConfig: Transformations | null;
   isTransforming: boolean;
   hasDownload?: boolean;

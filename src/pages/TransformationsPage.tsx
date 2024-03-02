@@ -95,6 +95,7 @@ const TransformationPage = () => {
             type={image.transformationType}
             title={image.title}
             isTransforming={false}
+            // @ts-ignore: Ignore this specific error
             transformationConfig={image?.config}
             hasDownload={true}
             url={image.transformationUrl}

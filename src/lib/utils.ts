@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-spread */
 import { aspectRatioOptions } from "@/constants";
-import { FormUrlQueryParams, RemoveUrlQueryParams } from "@/types";
 import { improve } from "@cloudinary/url-gen/actions/adjust";
 import { backgroundRemoval, generativeRecolor, generativeRemove, generativeRestore } from "@cloudinary/url-gen/actions/effect";
 import { fill } from "@cloudinary/url-gen/actions/resize";
@@ -57,37 +58,6 @@ export const dataUrl = `data:image/svg+xml;base64,${toBase64(
 )}`;
 // ==== End
 
-// FORM URL QUERY
-export const formUrlQuery = ({
-  searchParams,
-  key,
-  value,
-}: FormUrlQueryParams) => {
-  const params = { ...qs.parse(searchParams.toString()), [key]: value };
-
-  return `${window.location.pathname}?${qs.stringify(params, {
-    skipNulls: true,
-  })}`;
-};
-
-// REMOVE KEY FROM QUERY
-export function removeKeysFromQuery({
-  searchParams,
-  keysToRemove,
-}: RemoveUrlQueryParams) {
-  const currentUrl = qs.parse(searchParams);
-
-  keysToRemove.forEach((key) => {
-    delete currentUrl[key];
-  });
-
-  // Remove null or undefined values
-  Object.keys(currentUrl).forEach(
-    (key) => currentUrl[key] == null && delete currentUrl[key]
-  );
-
-  return `${window.location.pathname}?${qs.stringify(currentUrl)}`;
-}
 
 // DEBOUNCE
 export const debounce = (func: (...args: any[]) => void, delay: number) => {

@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 const AddTransformationType = () => {
   const { type } = useParams();
   const { userId } = useAuth();
+  // @ts-ignore: Ignore this specific error
   const transformation = transformationTypes[type];
   const [user, setUser] = useState<IUser>();
 

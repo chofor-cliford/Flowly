@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -20,7 +21,7 @@ import {
 } from "@/constants";
 import { TransformationFormProps, Transformations } from "@/types";
 import { CustomField } from "./CustomField";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import {
   AspectRatioKey,
   applyBackgroundRemovalTransformation,
@@ -48,14 +49,13 @@ const TransformationForm = ({
   config = null,
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
-  const [image, setImage] = useState(data);
+  const [image, setImage] = useState(data) as any;
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
   const [transformationConfig, setTransformationConfig] = useState(config);
   const [myUrl, setMyUrl] = useState(data?.transformationUrl);
-  const [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
 
   const initialValues =

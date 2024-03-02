@@ -5,9 +5,7 @@ import { useEffect } from "react";
 const TransformedImage = ({
   image,
   type,
-  title,
   isTransforming,
-  setIsTransforming,
   transformationConfig,
   hasDownload = false,
   url,

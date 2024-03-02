@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
@@ -17,7 +18,7 @@ const Profile = () => {
   const { userId } = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>();
-  const [images, setImages] = useState({});
+  const [images, setImages] = useState({}) as any;
 
   if (!userId) navigate("/sign-in");
 

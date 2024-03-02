@@ -15,7 +15,6 @@ import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import { IImage, TransformationTypeKey } from "@/types";
 import { transformationTypes } from "@/constants";
 import { Search } from "./Search";
-import { mode } from "@cloudinary/url-gen/actions/rotate";
 
 export const Collection = ({
   hasSearch = false,

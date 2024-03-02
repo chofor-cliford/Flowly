@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 
 import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "../ui/button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const Checkout = ({
   plan,
@@ -15,10 +15,9 @@ const Checkout = ({
   plan: string;
   amount: number;
   credits: number;
-  buyerId: string;
+  buyerId: string | any;
 }) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout

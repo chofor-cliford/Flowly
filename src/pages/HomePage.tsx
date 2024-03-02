@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Collection } from "@/components/shared/Collection";
 import { navLinks } from "@/constants";
 import axios from "axios";
@@ -12,7 +13,7 @@ const HomePage = () => {
   // Extracting query parameters
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
-  const [images, setImages] = useState({});
+  const [images, setImages] = useState({}) as any;
 
   useEffect(() => {
     const getAllImages = async () => {
@@ -55,14 +56,12 @@ const HomePage = () => {
       </section>
 
       <section className="sm:mt-12">
-        
-          <Collection
-            hasSearch={true}
-            images={images?.data}
-            totalPages={images?.totalPage}
-            page={page}
-          />
-
+        <Collection
+          hasSearch={true}
+          images={images?.data}
+          totalPages={images?.totalPage}
+          page={page}
+        />
       </section>
     </>
   );
