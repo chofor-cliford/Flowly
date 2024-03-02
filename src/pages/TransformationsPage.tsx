@@ -17,8 +17,8 @@ const TransformationPage = () => {
   useEffect(() => {
     const getImageById = async () => {
       try {
-        const { data }:any = await axios.get(
-          `http://localhost:8080/api/v1/getImageById/:imageId?imageId=${id}`
+        const { data }: any = await axios.get(
+          `https://flowly.onrender.com/api/v1/getImageById/:imageId?imageId=${id}`
         );
 
         setImage(data);
@@ -29,8 +29,8 @@ const TransformationPage = () => {
 
     getImageById();
   }, [id]);
-  
-  if(!image) return null;
+
+  if (!image) return null;
   return (
     <>
       <Header title={image.title} />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Header from "@/components/shared/Header";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { transformationTypes } from "@/constants";
@@ -20,7 +21,7 @@ const TransformationPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await axios.get(`
-  http://localhost:8080/api/v1/getUserById/:userId?userId=${userId}`);
+  https://flowly.onrender.com/api/v1/getUserById/:userId?userId=${userId}`);
 
       setUser(data);
     };
@@ -31,7 +32,7 @@ const TransformationPage = () => {
     const getImageById = async () => {
       try {
         const { data }: any = await axios.get(
-          `http://localhost:8080/api/v1/getImageById/:imageId?imageId=${id}`
+          `https://flowly.onrender.com/api/v1/getImageById/:imageId?imageId=${id}`
         );
 
         setImage(data);
@@ -49,7 +50,10 @@ const TransformationPage = () => {
 
   return (
     <>
-      <Header title={transformation?.title} subtitle={transformation?.subTitle} />
+      <Header
+        title={transformation?.title}
+        subtitle={transformation?.subTitle}
+      />
 
       <section className="mt-10">
         <TransformationForm

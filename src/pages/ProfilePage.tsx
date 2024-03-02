@@ -25,7 +25,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await axios.get(`
-  http://localhost:8080/api/v1/getUserById/:userId?userId=${userId}`);
+  https://flowly.onrender.com/api/v1/getUserById/:userId?userId=${userId}`);
 
       setUser(data);
     };
@@ -37,7 +37,7 @@ const Profile = () => {
       const params = { searchQuery: searchQuery, limit: 9, page: page };
       try {
         const { data } = await axios.get(
-          `http://localhost:8080/api/v1/getAllImages`,
+          `https://flowly.onrender.com/api/v1/getAllImages`,
           { params }
         );
 

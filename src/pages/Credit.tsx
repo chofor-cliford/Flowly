@@ -1,4 +1,3 @@
-
 import Header from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
@@ -11,20 +10,20 @@ import { IUser } from "@/types";
 
 const Credit = () => {
   const { userId } = useAuth();
-  const navigate  = useNavigate();
-  const [user, setUser] = useState<IUser>()
+  const navigate = useNavigate();
+  const [user, setUser] = useState<IUser>();
 
   if (!userId) navigate("/sign-in");
 
-   useEffect(() => {
-     const fetchUser = async () => {
-       const { data } = await axios.get(`
-  http://localhost:8080/api/v1/getUserById/:userId?userId=${userId}`);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await axios.get(`
+  https://flowly.onrender.com/api/v1/getUserById/:userId?userId=${userId}`);
 
-       setUser(data);
-     };
-     fetchUser();
-   }, [userId]);
+      setUser(data);
+    };
+    fetchUser();
+  }, [userId]);
 
   return (
     <>

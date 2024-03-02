@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   if (req.originalUrl === "/api/v1/stripe") {
     next();
   } else {
-    express.json({limit: '50mb'})(req, res, next);
+    express.json({ limit: "50mb" })(req, res, next);
   }
 });
 
@@ -64,7 +64,7 @@ app.post(
   stripePOST
 );
 app.post(`/api/v1/checkoutCredits`, checkoutCredits);
-// http://localhost:8080/api/v1/createTransaction
+// https://flowly.onrender.com/api/v1/createTransaction
 
 app.get("/", async (req, res) => {
   res.status(200).json({

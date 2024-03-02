@@ -52,7 +52,7 @@ const Checkout = ({
     };
 
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/checkoutCredits`,
+      `https://flowly.onrender.com/api/v1/checkoutCredits`,
       { transaction },
       {
         headers: {

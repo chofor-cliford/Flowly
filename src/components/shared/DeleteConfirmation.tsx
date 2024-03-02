@@ -25,7 +25,7 @@ export const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
     // Ignore error since value might be undefined
     startTransition(async () => {
       const { data } = await axios.delete(
-        `http://localhost:8080/api/v1/deleteImage/:imageId?imageId=${imageId}`
+        `https://flowly.onrender.com/api/v1/deleteImage/:imageId?imageId=${imageId}`
       );
 
       if (data) {

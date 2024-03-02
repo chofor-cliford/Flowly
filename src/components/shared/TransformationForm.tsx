@@ -99,7 +99,7 @@ const TransformationForm = ({
       if (action === "Add") {
         try {
           const { data: newImage } = await axios.post(
-            `http://localhost:8080/api/v1/addImage/:userId?userId=${userId}`,
+            `https://flowly.onrender.com/api/v1/addImage/:userId?userId=${userId}`,
             { image: imageData }
           );
 
@@ -117,7 +117,7 @@ const TransformationForm = ({
       if (action === "Update") {
         try {
           const { data: updatedImage } = await axios.put(
-            `http://localhost:8080/api/v1/updateImage/:userId?userId=${userId}`,
+            `https://flowly.onrender.com/api/v1/updateImage/:userId?userId=${userId}`,
             { image: { ...imageData, _id: data?._id } }
           );
 
@@ -213,7 +213,7 @@ const TransformationForm = ({
 
       // Make API call to update credits
       await axios.put(
-        `http://localhost:8080/api/v1/updateCredits/:userId?userId=${userId}`,
+        `https://flowly.onrender.com/api/v1/updateCredits/:userId?userId=${userId}`,
         { creditFee }
       );
     }
