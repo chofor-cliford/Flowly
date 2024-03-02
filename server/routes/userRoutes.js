@@ -22,7 +22,7 @@ export const getUserById = async (req, res) => {
   }
   try {
     const userId = req.query.userId;
-    const user = await User.findOne({ clerkId: userId });
+    const user = await User.findOne({ userId });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -44,15 +44,15 @@ export const updateUser = async (req, res) => {
     const clerkId = req.query.clerkId;
     const user = req.body;
 
-    const foundUser = await User.findOneAndUpdate({ clerkId }, user, {
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
 
-    if (!foundUser) {
+    if (!updatedUser) {
       return res.status(404).json({ message: "User update failed" });
     }
 
-    res.status(200).json(foundUser);
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

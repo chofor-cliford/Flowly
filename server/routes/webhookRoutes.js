@@ -1,26 +1,9 @@
 /* eslint-disable no-undef */
 import { Webhook } from "svix";
-import axios from "axios";
+import User from "../mongodb/models/user.model.js";
 
 // Function to update user metadata
-async function updateUserMetadata(userId, metadata) {
-  const apiKey = process.env.CLERK_API_KEY;
-  const apiUrl = `https://api.clerk.io/v1/users/${userId}/metadata`;
 
-  try {
-    const response = await axios.put(apiUrl, metadata, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error updating user metadata:", error.response.data);
-    throw error;
-  }
-}
 
 export const webhookRoute = async (req, res) => {
   // Check if the 'Signing Secret' from the Clerk Dashboard was correctly provided
@@ -32,8 +15,6 @@ export const webhookRoute = async (req, res) => {
   // Grab the headers and body
   const headers = req.headers;
   const payload = req.body;
-
-  console.log(payload)
 
   // Get the Svix headers for verification
   const svix_id = headers["svix-id"];
@@ -56,7 +37,7 @@ export const webhookRoute = async (req, res) => {
   // If successful, the payload will be available from 'evt'
   // If the verification fails, error out and  return error code
   try {
-    evt = wh.verify(payload, {
+    evt = wh.verify(JSON.stringify(payload), {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
@@ -71,10 +52,8 @@ export const webhookRoute = async (req, res) => {
   }
 
   // Grab the ID and TYPE of the Webhook
-  const { id } = evt.data;
   const eventType = evt.type;
 
-  console.log("User Data:", evt.data)
   // CREATE
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } =
@@ -89,33 +68,14 @@ export const webhookRoute = async (req, res) => {
       photo: image_url,
     };
 
-    const { data: newUser } = await axios.post(
-      `${process.env.URL}/createUser`,
-      user
-    );
-
-    if (newUser) {
-      const metadata = {
-        publicMetadata: {
-          userId: newUser._id,
-        },
-      };
-
-      updateUserMetadata(id, metadata)
-        .then((updatedMetadata) => {
-          console.log("User metadata updated successfully:", updatedMetadata);
-        })
-        .catch((error) => {
-          console.error("Failed to update user metadata:", error);
-        });
-    }
+    const newUser = await User.create(user);
 
     res.json({ message: "OK", user: newUser });
   }
 
   // UPDATE
   if (eventType === "user.updated") {
-    const { id, image_url, first_name, last_name, username } = evt.data;
+    const { id: clerkId, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
       firstName: first_name,
@@ -124,27 +84,32 @@ export const webhookRoute = async (req, res) => {
       photo: image_url,
     };
 
-    const { data: updatedUser } = axios.put(
-      `${process.env.URL}/updateUser?clerkId=${id}`,
-      user
-    );
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User update failed" });
+    }
 
     return res.json({ message: "OK", user: updatedUser });
   }
 
   // DELETE
   if (eventType === "user.deleted") {
-    const { id } = evt.data;
+    const { id: clerkId } = evt.data;
+    const userToDelete = await User.findOne({ clerkId });
 
-    const { data: deletedUser } = await axios.delete(
-      `${process.env.URL}/deleteUser/:clerkId?clerkId=${id}`
-    );
+    if (!userToDelete) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User delete failed" });
+    }
 
     return res.json({ message: "OK", user: deletedUser });
   }
-
-  console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", req.body);
-
-  return res.status(200).send("");
 };
