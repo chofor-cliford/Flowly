@@ -41,17 +41,6 @@ const TransformedImage = ({
 
       {image?.publicId && transformationConfig ? (
         <div className="relative">
-          {isTransforming && (
-            <div className="transforming-loader">
-              <img
-                src={dataUrl}
-                width={50}
-                height={200}
-                alt="loader"
-                className="transformed-image"
-              />
-            </div>
-          )}
           <img
             width={getImageSize(type, image, "width")}
             height={getImageSize(type, image, "height")}
